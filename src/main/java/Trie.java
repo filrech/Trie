@@ -1,7 +1,6 @@
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Trie {
     private TrieNode root;
@@ -32,9 +31,15 @@ public class Trie {
         }
     }
 
-    public void trieRemove(String word) {
-
-
+    public void trieRemove(@NotNull String word) {
+        int size = word.length() - 1;
+        for (int i = 0; i < size; i++) {
+            if (searchSize(word) != word.length()) break;
+            TrieNode prev = searchNode(word.substring(0, word.length() - 1));
+            prev.children.remove(word.charAt(word.length() - 1));
+            word = word.substring(0, word.length() - 1);
+            if (prev.isWord) break;
+        }
     }
 
     public boolean trieSearch(String word) {
@@ -60,6 +65,27 @@ public class Trie {
             }
         }
         return t;
+    }
+
+    public int searchSize(@NotNull String s) {
+        Map<Character, TrieNode> children = root.children;
+        TrieNode t;
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (children.containsKey(ch)) {
+                t = children.get(ch);
+                children = t.children;
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count;
+    }
+
+    public boolean startsWithPrefix(String prefix) {
+        return searchNode(prefix) != null;
     }
 }
 
