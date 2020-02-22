@@ -1,5 +1,3 @@
-import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 
 public class Trie {
@@ -9,7 +7,7 @@ public class Trie {
         root = new TrieNode();
     }
 
-    public void trieInsert(@NotNull String word) {
+    public void trieInsert(String word) {
         HashMap<Character, TrieNode> children = root.children;
 
         for (int i = 0; i < word.length(); i++) {
@@ -31,14 +29,17 @@ public class Trie {
         }
     }
 
-    public void trieRemove(@NotNull String word) {
+    public void trieRemove(String word) {
         int size = word.length() - 1;
         for (int i = 0; i < size; i++) {
             if (searchSize(word) != word.length()) break;
-            TrieNode prev = searchNode(word.substring(0, word.length() - 1));
-            prev.children.remove(word.charAt(word.length() - 1));
+            TrieNode t = searchNode(word.substring(0, word.length() - 1));
+            t.children.remove(word.charAt(word.length() - 1));
             word = word.substring(0, word.length() - 1);
-            if (prev.isWord) break;
+            if (t.isWord) break;
+        }
+        if (word.length() == 1) {
+            root.children.remove(word.charAt(0));
         }
     }
 
@@ -48,11 +49,18 @@ public class Trie {
         return t != null && t.isWord;
     }
 
-    public void trieSearchAll() {
-
+    public void trieStartsWithPrefix(String word) {
+        TrieNode t = searchNode(word);
+        if (t.isWord) {
+            System.out.println(word);
+        }
+        for (Character s: t.children.keySet()) {
+            String wordNext = word + s.toString();
+            trieStartsWithPrefix(wordNext);
+        }
     }
 
-    public TrieNode searchNode(@NotNull String s) {
+    public TrieNode searchNode(String s) {
         Map<Character, TrieNode> children = root.children;
         TrieNode t = null;
         for (int i = 0; i < s.length(); i++) {
@@ -67,7 +75,7 @@ public class Trie {
         return t;
     }
 
-    public int searchSize(@NotNull String s) {
+    public int searchSize(String s) {
         Map<Character, TrieNode> children = root.children;
         TrieNode t;
         int count = 0;
@@ -90,14 +98,6 @@ public class Trie {
 }
 
 class TrieNode {
-    char ch;
     HashMap<Character, TrieNode> children = new HashMap<Character, TrieNode>();
     boolean isWord;
-
-    public TrieNode() {
-    }
-
-    public TrieNode(char ch) {
-        this.ch = ch;
-    }
 }

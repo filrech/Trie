@@ -1,42 +1,54 @@
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 class TrieTest {
     @Test
     public void trieTest() {
         Trie test = new Trie();
-        test.trieInsert("I");
-        test.trieInsert("Have");
-        test.trieInsert("No");
-        test.trieInsert("Idea");
-        //how to test a trie
-        test.trieInsert("WTF");
-        test.trieInsert("Id");
+        test.trieInsert("a");
+        test.trieInsert("aaaaaaaa");
+        test.trieInsert("ab");
+        test.trieInsert("abc");
+        test.trieInsert("ad");
+        test.trieInsert("bbbbb");
+        test.trieInsert("bbbbbba");
+        test.trieInsert("ccccc");
+        test.trieInsert("A");
+        test.trieInsert("Add");
+        test.trieInsert("Addition");
+        test.trieInsert("Hello");
 
-        test.trieInsert("Remove");
-        assertTrue(test.trieSearch("Remove"));
-        test.trieRemove("Remove");
-        assertFalse(test.trieSearch("Remove"));
+        test.trieStartsWithPrefix("a");
+        System.out.println("==========");
+        test.trieStartsWithPrefix("Ad");
 
-        assertTrue(test.trieSearch("I"));
-        assertTrue(test.trieSearch("Idea"));
-        assertTrue(test.trieSearch("WTF"));
-        assertTrue(test.trieSearch("No"));
-        assertTrue(test.trieSearch("Id")); //isWord check
-        assertFalse(test.trieSearch("jq"));
-        assertFalse(test.trieSearch("i"));
+        assertTrue(test.trieSearch("Addition"));
+        assertTrue(test.trieSearch("Add"));
+        assertTrue(test.trieSearch("Hello"));
+        assertFalse(test.trieSearch("Additionn"));
+        assertFalse(test.trieSearch("additionn"));
+        assertFalse(test.trieSearch("Additio"));
 
-        assertFalse(test.startsWithPrefix("Remov"));
-        assertFalse(test.trieSearch("Remove"));
-        assertFalse(test.trieSearch("R"));
-        //assertFalse(test.startsWithPrefix("R"));
+        test.trieRemove("Addition");
 
-        test.trieRemove("Idea");
-        assertFalse(test.trieSearch("Idea"));
-        assertFalse(test.startsWithPrefix("Idea"));
-        assertTrue(test.startsWithPrefix("Id"));
-        assertTrue(test.trieSearch("Id"));
+        assertFalse(test.trieSearch("Addition"));
+        assertFalse(test.trieSearch("addition"));
+        assertFalse(test.trieSearch("Additio"));
+
+        assertFalse(test.startsWithPrefix("Addition"));
+        assertFalse(test.startsWithPrefix("Addi"));
+
+        assertTrue(test.trieSearch("Add"));
+        assertTrue(test.trieSearch("A"));
+
+        test.trieRemove("Hello");
+
+        assertFalse(test.trieSearch("Hello"));
+        assertFalse(test.startsWithPrefix("Hello"));
+        assertFalse(test.startsWithPrefix("Hell"));
+        assertFalse(test.startsWithPrefix("Hel"));
+        assertFalse(test.startsWithPrefix("He"));
+        assertFalse(test.startsWithPrefix("H"));
     }
-
-
 }
