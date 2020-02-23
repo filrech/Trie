@@ -6,49 +6,51 @@ class TrieTest {
     @Test
     public void trieTest() {
         Trie test = new Trie();
-        test.trieInsert("a");
-        test.trieInsert("aaaaaaaa");
-        test.trieInsert("ab");
-        test.trieInsert("abc");
-        test.trieInsert("ad");
-        test.trieInsert("bbbbb");
-        test.trieInsert("bbbbbba");
-        test.trieInsert("ccccc");
-        test.trieInsert("A");
-        test.trieInsert("Add");
-        test.trieInsert("Addition");
-        test.trieInsert("Hello");
+        test.insert("a");
+        test.insert("aaaaaaaa");
+        test.insert("ab");
+        test.insert("abc");
+        test.insert("ad");
+        test.insert("bbbbb");
+        test.insert("bbbbbba");
+        test.insert("ccccc");
+        test.insert("A");
+        test.insert("Add");
+        test.insert("Addition");
+        test.insert("Hello");
 
-        test.trieStartsWithPrefix("a");
+        test.startsWithPrefix("a");
         System.out.println("==========");
-        test.trieStartsWithPrefix("Ad");
+        test.startsWithPrefix("Ad");
+        System.out.println("==========");
+        test.startsWithPrefix("");
 
-        assertTrue(test.trieSearch("Addition"));
-        assertTrue(test.trieSearch("Add"));
-        assertTrue(test.trieSearch("Hello"));
-        assertFalse(test.trieSearch("Additionn"));
-        assertFalse(test.trieSearch("additionn"));
-        assertFalse(test.trieSearch("Additio"));
+        assertTrue(test.search("Addition"));
+        assertTrue(test.search("Add"));
+        assertTrue(test.search("Hello"));
+        assertFalse(test.search("Additionn"));
+        assertFalse(test.search("additionn"));
+        assertFalse(test.search("Additio"));
 
-        test.trieRemove("Addition");
+        test.remove("Addition");
 
-        assertFalse(test.trieSearch("Addition"));
-        assertFalse(test.trieSearch("addition"));
-        assertFalse(test.trieSearch("Additio"));
+        assertFalse(test.search("Addition"));
+        assertFalse(test.search("addition"));
+        assertFalse(test.search("Additio"));
 
-        assertFalse(test.startsWithPrefix("Addition"));
-        assertFalse(test.startsWithPrefix("Addi"));
+        assertFalse(test.booleanStartsWithPrefix("Addition"));
+        assertFalse(test.booleanStartsWithPrefix("Addi"));
 
-        assertTrue(test.trieSearch("Add"));
-        assertTrue(test.trieSearch("A"));
+        assertTrue(test.search("Add"));
+        assertTrue(test.search("A"));
 
-        test.trieRemove("Hello");
+        test.remove("Hello");
 
-        assertFalse(test.trieSearch("Hello"));
-        assertFalse(test.startsWithPrefix("Hello"));
-        assertFalse(test.startsWithPrefix("Hell"));
-        assertFalse(test.startsWithPrefix("Hel"));
-        assertFalse(test.startsWithPrefix("He"));
-        assertFalse(test.startsWithPrefix("H"));
+        assertFalse(test.search("Hello"));
+        assertFalse(test.booleanStartsWithPrefix("Hello"));
+        assertFalse(test.booleanStartsWithPrefix("Hell"));
+        assertFalse(test.booleanStartsWithPrefix("Hel"));
+        assertFalse(test.booleanStartsWithPrefix("He"));
+        assertFalse(test.booleanStartsWithPrefix("H"));
     }
 }

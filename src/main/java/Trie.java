@@ -7,7 +7,7 @@ public class Trie {
         root = new TrieNode();
     }
 
-    public void trieInsert(String word) {
+    public void insert(String word) {
         HashMap<Character, TrieNode> children = root.children;
 
         for (int i = 0; i < word.length(); i++) {
@@ -29,7 +29,7 @@ public class Trie {
         }
     }
 
-    public void trieRemove(String word) {
+    public void remove(String word) {
         int size = word.length() - 1;
         for (int i = 0; i < size; i++) {
             if (searchSize(word) != word.length()) break;
@@ -43,20 +43,24 @@ public class Trie {
         }
     }
 
-    public boolean trieSearch(String word) {
+    public boolean search(String word) {
         TrieNode t = searchNode(word);
 
         return t != null && t.isWord;
     }
 
-    public void trieStartsWithPrefix(String word) {
+    public void startsWithPrefix(String word) {
+        if (word.length() == 0) {
+            System.out.println("No prefix given");
+            return;
+        }
         TrieNode t = searchNode(word);
         if (t.isWord) {
             System.out.println(word);
         }
         for (Character s: t.children.keySet()) {
             String wordNext = word + s.toString();
-            trieStartsWithPrefix(wordNext);
+            startsWithPrefix(wordNext);
         }
     }
 
@@ -92,7 +96,7 @@ public class Trie {
         return count;
     }
 
-    public boolean startsWithPrefix(String prefix) {
+    public boolean booleanStartsWithPrefix(String prefix) {
         return searchNode(prefix) != null;
     }
 }
