@@ -52,5 +52,11 @@ class TrieTest {
         assertFalse(test.booleanStartsWithPrefix("Hel"));
         assertFalse(test.booleanStartsWithPrefix("He"));
         assertFalse(test.booleanStartsWithPrefix("H"));
+
+        test.insert("Addition");
+        test.remove("Add");
+        assertFalse(test.search("Add"));
+        assertTrue(test.search("Addition"));
+        assertTrue(test.booleanStartsWithPrefix("Add"));
     }
 }

@@ -9,10 +9,8 @@ public class Trie {
 
     public void insert(String word) {
         HashMap<Character, TrieNode> children = root.children;
-
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
-
             TrieNode t;
             if (children.containsKey(c)) {
                 t = children.get(c);
@@ -20,9 +18,7 @@ public class Trie {
                 t = new TrieNode();
                 children.put(c, t);
             }
-
             children = t.children;
-
             if (i == word.length() - 1) {
                 t.isWord = true;
             }
@@ -32,11 +28,15 @@ public class Trie {
     public void remove(String word) {
         int size = word.length() - 1;
         for (int i = 0; i < size; i++) {
-            if (searchSize(word) != word.length()) break;
-            TrieNode t = searchNode(word.substring(0, word.length() - 1));
-            t.children.remove(word.charAt(word.length() - 1));
-            word = word.substring(0, word.length() - 1);
-            if (t.isWord) break;
+            if (booleanEndOfWord(word)) {
+                TrieNode t = searchNode(word.substring(0, word.length() - 1));
+                t.children.remove(word.charAt(word.length() - 1));
+                word = word.substring(0, word.length() - 1);
+                if (t.isWord) break;
+            } else {
+                TrieNode t = searchNode(word);
+                t.isWord = false;
+            }
         }
         if (word.length() == 1) {
             root.children.remove(word.charAt(0));
@@ -79,21 +79,9 @@ public class Trie {
         return t;
     }
 
-    public int searchSize(String s) {
-        Map<Character, TrieNode> children = root.children;
-        TrieNode t;
-        int count = 0;
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            if (children.containsKey(ch)) {
-                t = children.get(ch);
-                children = t.children;
-                count++;
-            } else {
-                break;
-            }
-        }
-        return count;
+    public boolean booleanEndOfWord(String s) {
+        TrieNode t = searchNode(s);
+        return t.children.isEmpty();
     }
 
     public boolean booleanStartsWithPrefix(String prefix) {
