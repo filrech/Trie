@@ -1,62 +1,77 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrieTest {
-    @Test
-    public void trieTest() {
-        Trie test = new Trie();
+    Trie test;
+
+    @BeforeEach
+    void setup() {
+        test = new Trie();
         test.insert("a");
-        test.insert("aaaaaaaa");
-        test.insert("ab");
-        test.insert("abc");
-        test.insert("ad");
-        test.insert("bbbbb");
-        test.insert("bbbbbba");
-        test.insert("ccccc");
+        test.insert("aaaaaa");
+        test.insert("bbbbbb");
         test.insert("A");
-        test.insert("Add");
-        test.insert("Addition");
-        test.insert("Hello");
+    }
 
-        test.startsWithPrefix("a");
-        System.out.println("==========");
-        test.startsWithPrefix("Ad");
-        System.out.println("==========");
-        test.startsWithPrefix("");
+    @Test
+    void insert() {
+        assertTrue(test.insert("a"));
+        assertTrue(test.insert("aa"));
+        assertTrue(test.insert("aa"));
+        assertFalse(test.insert(""));
+        assertFalse(test.insert(" "));
+        assertFalse(test.insert(null));
+    }
 
-        assertTrue(test.search("Addition"));
-        assertTrue(test.search("Add"));
-        assertTrue(test.search("Hello"));
-        assertFalse(test.search("Additionn"));
-        assertFalse(test.search("additionn"));
-        assertFalse(test.search("Additio"));
+    @Test
+    void remove() {
+        assertTrue(test.remove("a"));
+        assertTrue(test.remove("aaaaaa"));
+        assertTrue(test.remove("bbbbbb"));
+        assertTrue(test.remove("A"));
+        assertFalse(test.remove("A"));
+        assertFalse(test.remove("NQN RQ"));
+        assertFalse(test.remove(" "));
+        assertFalse(test.remove(null));
+        assertEquals(new Trie(), test); //Удаление всех слов из дерева
+    }
 
-        test.remove("Addition");
-
-        assertFalse(test.search("Addition"));
-        assertFalse(test.search("addition"));
-        assertFalse(test.search("Additio"));
-
-        assertFalse(test.booleanStartsWithPrefix("Addition"));
-        assertFalse(test.booleanStartsWithPrefix("Addi"));
-
-        assertTrue(test.search("Add"));
+    @Test
+    void search() {
+        assertTrue(test.search("a"));
+        assertTrue(test.search("aaaaaa"));
         assertTrue(test.search("A"));
+        assertFalse(test.search("AA"));
+        assertFalse(test.search("A A"));
+        assertFalse(test.search(" "));
+        assertFalse(test.search(null));
+    }
 
-        test.remove("Hello");
+    @Test
+    void startsWithPrefix() {
+        ArrayList<String> expected= new ArrayList<String>();
 
-        assertFalse(test.search("Hello"));
-        assertFalse(test.booleanStartsWithPrefix("Hello"));
-        assertFalse(test.booleanStartsWithPrefix("Hell"));
-        assertFalse(test.booleanStartsWithPrefix("Hel"));
-        assertFalse(test.booleanStartsWithPrefix("He"));
-        assertFalse(test.booleanStartsWithPrefix("H"));
+        assertEquals(expected, test.startsWithPrefix(""));
 
-        test.insert("Addition");
-        test.remove("Add");
-        assertFalse(test.search("Add"));
-        assertTrue(test.search("Addition"));
-        assertTrue(test.booleanStartsWithPrefix("Add"));
+        expected.add("a");
+        expected.add("aaaaaa");
+
+        assertEquals(expected, test.startsWithPrefix("a"));
+
+        expected.clear();
+        expected.add("A");
+
+        assertEquals(expected, test.startsWithPrefix("A"));
+
+        assertNotEquals(expected, test.startsWithPrefix("b"));
+
+        expected.clear();
+        expected.add("bbbbbb");
+
+        assertEquals(expected, test.startsWithPrefix("b"));
     }
 }
