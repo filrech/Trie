@@ -1,14 +1,13 @@
 import java.util.*;
 
 public class Trie {
-    public TrieNode root;
+    private TrieNode root;
 
     public Trie() {
         root = new TrieNode();
     }
 
     /**
-     *  Word добавляется в структуру
      *  Если word соответствует формату возвращает true
      */
     public boolean insert(String word) {
@@ -34,10 +33,9 @@ public class Trie {
     }
 
     /**
-     *  Если в структуре нет заданого слова возвращается false
-     *  В случае если длина word равна 1 проверяется root
+     *  Если в структуре нет заданого слова, то возвращается false
+     *  В случае если длина word равна 1, проверяется root
      *  Если слово не является концом ветки, то слово не удаляется (меняется значение isWord)
-     *  Или слово удаляется из структуры
      */
     public boolean remove(String word) {
         TrieNode t = searchNode(word);
@@ -117,7 +115,7 @@ public class Trie {
 
     /**
      *  Нужен для получения всех слов в структуре
-     *  Используется в equals и hashCode
+     *  Используется в equals() и hashCode()
      */
     private List<String> getAllWords() {
         List<String> allWordList = new ArrayList<String>();
@@ -162,13 +160,13 @@ public class Trie {
     }
 
     /**
-     *  Деревья равны, если равны списки слов в них содержащихся
+     *  Деревья равны, если равны списки их слов
      */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
-        }
+        } 
         if (!(obj instanceof Trie)) {
             return false;
         }
