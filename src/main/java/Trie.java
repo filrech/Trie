@@ -11,10 +11,10 @@ public class Trie {
      *  Если word соответствует формату возвращает true
      */
     public boolean insert(String word) {
-        Map<Character, TrieNode> children = root.children;
         if (word == null || word.length() == 0 || word.contains(" ")) {
             return false;
         }
+        Map<Character, TrieNode> children = root.children;
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
             TrieNode t;
@@ -59,7 +59,6 @@ public class Trie {
         }
         String previousWord = word.substring(0, word.length() - 1);
         t = searchNode(previousWord);
-        assert t != null;
         t.children.remove(word.charAt(word.length() - 1));
         if (!t.isWord) {
             remove(previousWord);
@@ -88,17 +87,13 @@ public class Trie {
      */
     public List<String> startsWithPrefix(String word) {
         List<String> wordList = new ArrayList<String>();
-        return getStrings(word, wordList);
-    }
-
-    private void startsWithPrefix(String word, List<String> wordList) {
-        getStrings(word, wordList);
-    }
-
-    private List<String> getStrings(String word, List<String> wordList) {
         if (word == null || word.length() == 0) {
             return wordList;
         }
+        return getStrings(word, wordList);
+    }
+
+    private List<String> getStrings(String word, List<String> wordList) {
         TrieNode t = searchNode(word);
         if (t == null) {
             return wordList;
@@ -108,7 +103,7 @@ public class Trie {
         }
         for (Character s: t.children.keySet()) {
             String wordNext = word + s.toString();
-            startsWithPrefix(wordNext, wordList);
+            getStrings(wordNext, wordList);
         }
         return wordList;
     }
